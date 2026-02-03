@@ -158,10 +158,6 @@ Las búsquedas se cachean durante 5 minutos para evitar peticiones repetitivas a
 - [Scraper de MercadoLibre](docs/MERCADOLIBRE.md)
 - [Scraper de eBay](docs/EBAY.md)
 
-## Contribuir
-
-¿Quieres contribuir? Lee nuestra [guía de contribución](CONTRIBUTING.md).
-
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
