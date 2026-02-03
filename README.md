@@ -161,11 +161,3 @@ Las búsquedas se cachean durante 5 minutos para evitar peticiones repetitivas a
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
-
-## Reportar Problemas
-
-Si encuentras algún bug o tienes una sugerencia, por favor abre un [issue](https://github.com/TU_USUARIO/PreciosVS/issues).
-
-## Contacto
-
-Para consultas sobre integración con la API de MercadoLibre o el sistema de monitoreo, por favor contacta al equipo de desarrollo.
