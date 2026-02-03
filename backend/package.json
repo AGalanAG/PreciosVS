@@ -1,0 +1,26 @@
+{
+  "name": "comparador-precios-backend",
+  "version": "1.0.0",
+  "description": "Backend para comparador de precios MercadoLibre y eBay",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "keywords": [
+    "scraper",
+    "mercadolibre",
+    "ebay",
+    "puppeteer",
+    "comparador",
+    "precios"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-cache": "^5.1.2",
+    "puppeteer": "^24.15.0"
+  }
+}
