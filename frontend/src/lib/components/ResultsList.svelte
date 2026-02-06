@@ -68,25 +68,12 @@
     </div>
   </div>
   
-  <!-- Tabla de resultados -->
+  <!-- Grid de productos -->
   {#if productosAMostrar.length > 0}
-    <div class="table-container">
-      <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-          <tr>
-            <th class="has-text-centered" style="width: 60px;">#</th>
-            <th>Producto</th>
-            <th class="has-text-right" style="width: 180px;">Precio</th>
-            <th class="has-text-centered" style="width: 80px;">Fuente</th>
-            <th class="has-text-centered" style="width: 100px;">Accion</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each productosAMostrar as producto (producto.link)}
-            <ProductCard {producto} />
-          {/each}
-        </tbody>
-      </table>
+    <div class="products-grid">
+      {#each productosAMostrar as producto (producto.link)}
+        <ProductCard {producto} />
+      {/each}
     </div>
   {:else}
     <div class="notification is-warning has-text-centered">
@@ -108,11 +95,18 @@
     color: var(--color-paragraph);
   }
   
-  .table-container {
-    overflow-x: auto;
-    border: 2px solid var(--color-stroke);
-    border-radius: 4px;
-    background-color: #fff;
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+    }
   }
   
   .tabs li.is-active a {

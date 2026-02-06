@@ -112,11 +112,26 @@ async function buscarProducto(producto) {
           }
           const link = linkElement ? linkElement.href : '';
           
+          // Obtener la imagen del producto
+          let imagen = '';
+          let imgElement = elemento.querySelector('img.poly-card__portada');
+          if (!imgElement) {
+            imgElement = elemento.querySelector('img.ui-search-result-image__element');
+          }
+          if (!imgElement) {
+            imgElement = elemento.querySelector('img');
+          }
+          if (imgElement) {
+            // Usar data-src si está disponible (lazy loading), si no usar src
+            imagen = imgElement.getAttribute('data-src') || imgElement.src || '';
+          }
+          
           preciosArray.push({
             posicion: i + 1,
             titulo: titulo,
             precio: precio,
-            link: link
+            link: link,
+            imagen: imagen
           });
         }
       }

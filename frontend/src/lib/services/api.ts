@@ -17,6 +17,7 @@ export interface ProductoResultado {
   precioUSD: number;
   precioProducto?: string;
   precioEnvio?: string;
+  imagen?: string;
 }
 
 export interface PrecioInfo {

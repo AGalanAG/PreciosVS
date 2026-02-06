@@ -207,13 +207,27 @@ async function buscarProducto(producto) {
           let linkElement = elemento.querySelector('a.s-card__link, a[href*="ebay.com/itm"]');
           const link = linkElement ? linkElement.href : '';
           
+          // Obtener la imagen del producto
+          let imagen = '';
+          let imgElement = elemento.querySelector('img.s-card__image-img');
+          if (!imgElement) {
+            imgElement = elemento.querySelector('img[src*="ebayimg"]');
+          }
+          if (!imgElement) {
+            imgElement = elemento.querySelector('img');
+          }
+          if (imgElement) {
+            imagen = imgElement.src || '';
+          }
+          
           preciosArray.push({
             posicion: preciosArray.length + 1,
             titulo: titulo,
             precio: precio,
             precioProducto: precioProducto.toFixed(2),
             precioEnvio: precioEnvio.toFixed(2),
-            link: link
+            link: link,
+            imagen: imagen
           });
         }
       }
