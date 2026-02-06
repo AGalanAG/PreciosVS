@@ -39,6 +39,14 @@
     <p class="is-size-7 has-text-grey">
       ${formatPrice(producto.precioUSD)} USD
     </p>
+    {#if producto.fuente === 'eBay' && producto.precioEnvio}
+      <p class="is-size-7 has-text-grey-dark shipping-info">
+        <span class="icon is-small">
+          <i class="fas fa-shipping-fast"></i>
+        </span>
+        Envío: ${formatPrice(parseFloat(producto.precioEnvio))} MXN
+      </p>
+    {/if}
   </td>
   <td class="has-text-centered">
     {#if producto.fuente === 'MercadoLibre'}

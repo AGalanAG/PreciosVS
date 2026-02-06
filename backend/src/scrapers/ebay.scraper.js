@@ -103,6 +103,52 @@ async function buscarProducto(producto) {
           }
         }
         
+        // Buscar el precio de envío - múltiples estrategias
+        let precioEnvio = 0;
+        
+        // Estrategia 1: Buscar en span.s-card__shipping (formato de listado)
+        let envioElement = elemento.querySelector('span.s-card__shipping');
+        
+        // Estrategia 2: Buscar en cualquier elemento que contenga "shipping" o "envío"
+        if (!envioElement) {
+          const allSpans = Array.from(elemento.querySelectorAll('span'));
+          envioElement = allSpans.find(s => {
+            const text = s.textContent.toLowerCase();
+            return (text.includes('shipping') || text.includes('envío') || text.includes('envio')) 
+                   && text.match(/[\$][\d\s,]+\.?\d*/);
+          });
+        }
+        
+        // Estrategia 3: Buscar en divs con clases ux-labels-values o s-item__shipping
+        if (!envioElement) {
+          envioElement = elemento.querySelector('.s-item__shipping, .ux-labels-values__values-content');
+        }
+        
+        if (envioElement) {
+          const envioTexto = envioElement.textContent.trim();
+          
+          // Primero intentar extraer el precio en MXN si viene convertido
+          // Ejemplo: "US $64.20 (aproximadamente MXN $1,123.97)"
+          const matchMXN = envioTexto.match(/MXN\s*\$?\s*([\d\s,]+\.?\d*)/i);
+          if (matchMXN) {
+            let precioEnvioStr = matchMXN[1]
+              .replace(/\s+/g, '')
+              .replace(/,/g, '');
+            precioEnvio = parseFloat(precioEnvioStr) || 0;
+          } else {
+            // Si no hay conversión a MXN, buscar el precio directamente
+            // Esto aplica cuando el precio ya está en MXN desde el inicio
+            const matchEnvio = envioTexto.match(/[\$][\d\s,]+\.?\d*/);
+            if (matchEnvio) {
+              let precioEnvioStr = matchEnvio[0]
+                .replace(/\$/g, '')
+                .replace(/\s+/g, '')
+                .replace(/,/g, '');
+              precioEnvio = parseFloat(precioEnvioStr) || 0;
+            }
+          }
+        }
+        
         if (precio) {
           // Limpiar el precio - IMPORTANTE: manejar espacios como separador de miles (formato MXN)
           // Ejemplo: "$9 000.00" o "9 000.00 MXN" debe convertirse a "9000.00"
@@ -116,6 +162,13 @@ async function buscarProducto(producto) {
           if (precio.includes('to') || precio.includes('a ')) {
             precio = precio.split(/to|a /)[0].trim();
           }
+          
+          // Convertir a número y sumar el precio de envío
+          const precioProducto = parseFloat(precio) || 0;
+          const precioTotal = precioProducto + precioEnvio;
+          
+          // Convertir de vuelta a string para mantener compatibilidad con el resto del código
+          precio = precioTotal.toFixed(2);
           
           // Obtener el título del producto
           let titulo = 'Sin título';
@@ -158,6 +211,8 @@ async function buscarProducto(producto) {
             posicion: preciosArray.length + 1,
             titulo: titulo,
             precio: precio,
+            precioProducto: precioProducto.toFixed(2),
+            precioEnvio: precioEnvio.toFixed(2),
             link: link
           });
         }

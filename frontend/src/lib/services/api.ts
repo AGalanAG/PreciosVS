@@ -15,6 +15,8 @@ export interface ProductoResultado {
   monedaOriginal: string;
   precioMXN: number;
   precioUSD: number;
+  precioProducto?: string;
+  precioEnvio?: string;
 }
 
 export interface PrecioInfo {
