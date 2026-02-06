@@ -24,28 +24,26 @@
 
 <div class="price-summary">
   <div class="columns is-multiline">
-    <!-- Precio Minimo -->
+    <!-- Precio Sugerido -->
     <div class="column is-4">
-      <div class="box price-box price-box-min">
+      <div class="box price-box price-box-suggested">
         <div class="has-text-centered">
-          <span class="icon is-large price-icon-min">
-            <i class="fas fa-arrow-down fa-2x"></i>
+          <span class="icon is-large price-icon-suggested">
+            <i class="fas fa-tag fa-2x"></i>
           </span>
-          <p class="heading">Precio Minimo</p>
-          <p class="title is-4 price-text-min">
-            {formatPrice(analisis.precioMinimo?.valor)}
+          <p class="heading">Precio Sugerido de Venta</p>
+          <p class="title is-4 price-text-suggested">
+            {formatPrice(analisis.precioSugerido?.valor)}
           </p>
           <p class="is-size-7 has-text-grey">
-            {formatPriceUSD(analisis.precioMinimo?.valorUSD)} (aprox.)
+            {formatPriceUSD(analisis.precioSugerido?.valorUSD)} (aprox.)
           </p>
-          {#if analisis.precioMinimo?.fuente}
-            <p class="is-size-7">
-              <span class="tag is-light">{analisis.precioMinimo.fuente}</span>
-            </p>
-          {/if}
-          {#if analisis.precioMinimo?.titulo}
-            <p class="is-size-7 has-text-grey mt-2 truncate-text">
-              {analisis.precioMinimo.titulo}
+          <p class="is-size-7">
+            <span class="tag is-primary is-light">Percentil 25</span>
+          </p>
+          {#if analisis.mensaje}
+            <p class="is-size-7 has-text-grey mt-2">
+              {analisis.mensaje}
             </p>
           {/if}
         </div>
@@ -80,26 +78,28 @@
       </div>
     </div>
     
-    <!-- Precio Sugerido -->
+    <!-- Precio Minimo -->
     <div class="column is-4">
-      <div class="box price-box price-box-suggested">
+      <div class="box price-box price-box-min">
         <div class="has-text-centered">
-          <span class="icon is-large price-icon-suggested">
-            <i class="fas fa-tag fa-2x"></i>
+          <span class="icon is-large price-icon-min">
+            <i class="fas fa-arrow-down fa-2x"></i>
           </span>
-          <p class="heading">Precio Sugerido de Venta</p>
-          <p class="title is-4 price-text-suggested">
-            {formatPrice(analisis.precioSugerido?.valor)}
+          <p class="heading">Precio Minimo</p>
+          <p class="title is-4 price-text-min">
+            {formatPrice(analisis.precioMinimo?.valor)}
           </p>
           <p class="is-size-7 has-text-grey">
-            {formatPriceUSD(analisis.precioSugerido?.valorUSD)} (aprox.)
+            {formatPriceUSD(analisis.precioMinimo?.valorUSD)} (aprox.)
           </p>
-          <p class="is-size-7">
-            <span class="tag is-primary is-light">Percentil 25</span>
-          </p>
-          {#if analisis.mensaje}
-            <p class="is-size-7 has-text-grey mt-2">
-              {analisis.mensaje}
+          {#if analisis.precioMinimo?.fuente}
+            <p class="is-size-7">
+              <span class="tag is-light">{analisis.precioMinimo.fuente}</span>
+            </p>
+          {/if}
+          {#if analisis.precioMinimo?.titulo}
+            <p class="is-size-7 has-text-grey mt-2 truncate-text">
+              {analisis.precioMinimo.titulo}
             </p>
           {/if}
         </div>
