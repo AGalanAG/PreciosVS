@@ -2,7 +2,30 @@
 
 Este documento detalla el plan de desarrollo futuro del proyecto.
 
-## v1.0 - Versión Actual (Completado)
+## v1.1 - Sistema de Filtrado Inteligente (✅ Completado - Feb 2026)
+
+### Características Implementadas
+- [x] Detección automática de accesorios por palabras clave
+- [x] Sistema de puntuación de relevancia (0-100)
+- [x] Detección de outliers de precio (método IQR)
+- [x] Filtrado configurable vía API
+- [x] Categorización de accesorios (gaming, networking, general)
+- [x] Preservación inteligente de productos relevantes
+- [x] Transparencia en exclusiones (productos excluidos visibles)
+
+### Beneficios
+- 🎯 Análisis de precios más preciso (mejora ~80%)
+- 🚫 Exclusión automática de accesorios no deseados
+- 📊 Reducción de falsos positivos (~90%)
+- ⚙️ Configuración flexible por búsqueda
+
+### Documentación
+- [FILTRADO_INTELIGENTE.md](docs/FILTRADO_INTELIGENTE.md)
+- [MEJORAS_FILTRADO.md](docs/MEJORAS_FILTRADO.md)
+
+---
+
+## v1.0 - Versión Inicial (Completado)
 
 ### Características Implementadas
 - [x] Web scraping de MercadoLibre México

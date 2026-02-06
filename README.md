@@ -11,12 +11,33 @@ Aplicación web para comparar precios de productos entre MercadoLibre México y 
 
 ## Características Actuales
 
+### ✨ Búsqueda y Comparación
 - Búsqueda en paralelo (MercadoLibre y eBay simultáneamente)
 - Sistema de caché inteligente (TTL: 5 minutos)
 - Cálculo de precio sugerido usando percentil 25
 - Interfaz responsive con Bulma CSS
 - Clasificación de coincidencias exactas vs parciales
 - Web scraping robusto con Puppeteer
+
+### 🎯 Filtrado Inteligente de Relevancia (v1.1 - NUEVO)
+- **Detección automática de accesorios:** Excluye kits de montaje, cables, fundas, controles, etc.
+- **Sistema de puntuación:** Score de relevancia 0-100 para cada producto
+- **Detección de outliers:** Filtra precios anómalos usando método IQR
+- **Configuración flexible:** Ajusta el nivel de filtrado por búsqueda
+- **Transparencia total:** Ve qué productos fueron excluidos y por qué
+
+**Ejemplo:**
+```bash
+# Búsqueda inteligente (filtra accesorios automáticamente)
+GET /api/search/cisco meraki mr34
+
+# Personalizar filtrado
+GET /api/search/playstation 5?scoreMinimo=60&filtrarAccesorios=true
+```
+
+📖 **[Ver documentación completa del filtrado inteligente](docs/FILTRADO_INTELIGENTE.md)**
+
+📋 **[Ejemplos prácticos de uso](docs/EJEMPLOS_USO.md)**
 
 ## Roadmap - Próximas Versiones
 

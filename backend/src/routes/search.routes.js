@@ -18,10 +18,21 @@ const {
 /**
  * GET /api/search/:producto
  * Busca en MercadoLibre y eBay simultaneamente
+ * Query params opcionales:
+ *  - filtroInteligente: boolean (default: true) - Aplica filtrado de relevancia
+ *  - filtrarAccesorios: boolean (default: true) - Excluye accesorios detectados
+ *  - filtrarOutliers: boolean (default: true) - Excluye precios outliers
+ *  - scoreMinimo: number (default: 40) - Score mínimo de relevancia (0-100)
  */
 router.get('/search/:producto', async (req, res) => {
   try {
     const { producto } = req.params;
+    const {
+      filtroInteligente = 'true',
+      filtrarAccesorios = 'true',
+      filtrarOutliers = 'true',
+      scoreMinimo = '40'
+    } = req.query;
     
     if (!producto || producto.trim().length === 0) {
       return res.status(400).json({
@@ -30,7 +41,15 @@ router.get('/search/:producto', async (req, res) => {
       });
     }
 
-    const cacheKey = generateCacheKey(producto, 'all');
+    // Convertir query params a boolean/number
+    const opciones = {
+      aplicarFiltroInteligente: filtroInteligente === 'true',
+      filtrarAccesorios: filtrarAccesorios === 'true',
+      filtrarOutliers: filtrarOutliers === 'true',
+      scoreMinimo: parseInt(scoreMinimo, 10)
+    };
+
+    const cacheKey = generateCacheKey(producto, 'all', opciones);
     const cached = getFromCache(cacheKey);
     
     if (cached) {
@@ -45,6 +64,7 @@ router.get('/search/:producto', async (req, res) => {
     }
 
     console.log(`[Search] Buscando "${producto}" en MercadoLibre y eBay...`);
+    console.log(`[Search] Opciones filtrado:`, opciones);
     
     // Ejecutar ambas busquedas en paralelo
     const [resultadosML, resultadosEbay] = await Promise.all([
@@ -52,8 +72,8 @@ router.get('/search/:producto', async (req, res) => {
       buscarEnEbay(producto)
     ]);
 
-    // Analizar y unificar resultados
-    const resultado = analizarPrecios(resultadosML, resultadosEbay, producto);
+    // Analizar y unificar resultados con opciones de filtrado
+    const resultado = analizarPrecios(resultadosML, resultadosEbay, producto, opciones);
 
     // Guardar en cache si fue exitoso
     if (resultado.exito) {

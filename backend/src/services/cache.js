@@ -16,10 +16,20 @@ const searchCache = new NodeCache({
  * Genera una clave de cache normalizada
  * @param {string} query - Termino de busqueda
  * @param {string} source - Fuente (all, mercadolibre, ebay)
+ * @param {object} opciones - Opciones de filtrado (opcional)
  * @returns {string} Clave de cache
  */
-function generateCacheKey(query, source = 'all') {
-  return `search:${source}:${query.toLowerCase().trim().replace(/\s+/g, '-')}`;
+function generateCacheKey(query, source = 'all', opciones = {}) {
+  const baseKey = `search:${source}:${query.toLowerCase().trim().replace(/\s+/g, '-')}`;
+  
+  // Si hay opciones, añadirlas a la clave
+  if (opciones && Object.keys(opciones).length > 0) {
+    const opcionesStr = JSON.stringify(opciones);
+    const opcionesHash = Buffer.from(opcionesStr).toString('base64').substring(0, 8);
+    return `${baseKey}:${opcionesHash}`;
+  }
+  
+  return baseKey;
 }
 
 /**
