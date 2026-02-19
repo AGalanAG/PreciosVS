@@ -8,16 +8,18 @@
   let resultado: BusquedaResponse | null = $state(null);
   let error: string | null = $state(null);
   let searchedProduct: string = $state('');
+  let isFlexibleSearch = $state(false);
   
-  async function handleSearch(event: CustomEvent<{ query: string }>) {
-    const { query } = event.detail;
+  async function handleSearch(event: CustomEvent<{ query: string; flexible: boolean }>) {
+    const { query, flexible } = event.detail;
     isLoading = true;
     error = null;
     resultado = null;
     searchedProduct = query;
+    isFlexibleSearch = flexible;
     
     try {
-      resultado = await buscarProducto(query);
+      resultado = await buscarProducto(query, flexible);
       if (!resultado.exito) {
         error = resultado.error || 'Error desconocido en la busqueda';
       }
@@ -82,6 +84,14 @@
     <!-- Resultados -->
     {#if resultado && resultado.exito && !isLoading}
       <div class="mt-5">
+        <!-- Indicador de modo de búsqueda -->
+        {#if isFlexibleSearch}
+          <div class="notification is-warning is-light mb-4">
+            <span class="icon"><i class="fas fa-filter-circle-xmark"></i></span>
+            <strong>Búsqueda flexible activa:</strong> Mostrando más resultados con criterios menos restrictivos. Pueden incluirse productos con variaciones en el nombre.
+          </div>
+        {/if}
+        
         <!-- Cache indicator -->
         {#if resultado._cache?.hit}
           <div class="notification is-light is-small mb-4">

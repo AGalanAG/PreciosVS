@@ -75,9 +75,21 @@ export interface BusquedaResponse {
 
 /**
  * Busca un producto en MercadoLibre y eBay
+ * @param producto - Producto a buscar
+ * @param flexible - Si es true, usa búsqueda con menos restricciones para mostrar más resultados
  */
-export async function buscarProducto(producto: string): Promise<BusquedaResponse> {
-  const response = await fetch(`${API_BASE}/search/${encodeURIComponent(producto)}`);
+export async function buscarProducto(producto: string, flexible: boolean = false): Promise<BusquedaResponse> {
+  const params = new URLSearchParams();
+  
+  if (flexible) {
+    params.append('filtroInteligente', 'true');
+    params.append('filtrarAccesorios', 'false');
+    params.append('filtrarOutliers', 'false');
+    params.append('scoreMinimo', '20');
+  }
+  
+  const url = `${API_BASE}/search/${encodeURIComponent(producto)}${params.toString() ? '?' + params.toString() : ''}`;
+  const response = await fetch(url);
   
   if (!response.ok) {
     throw new Error(`Error en la busqueda: ${response.statusText}`);
